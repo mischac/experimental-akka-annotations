@@ -35,16 +35,30 @@ This is used for messages which are singleton objects.
 the annotated method should not have any parameters.
 
 #### dispatcher & actor code
-to use the annotation have in you actor code something like this:
+##### the dispatcher
+the dispatcher essentially maintains a map `message class -> (receiver, receiver method)` and will on runtime for a given message invoke 
+the corresponding `receiver.method`. 
 
-```  override def receive: Receive = Dispatcher(receiver1, receiver2).receive```
-with some objects receiver1, receiver2 which have annotated messages.
+behaviour for missing mappings can be implemented - see `NotFoundStrategy` in the `Dispatcher`, the default is a runtime exception.
 
-alternatively extend [`Xctor`](src/main/scala/experimental/akka/annotations/receive/Actors.scala).
+
+##### manual
+usage (from an actor) example:
+
+```override def receive: Receive = Dispatcher(obj1, obj2).receive```
+
+with for example some objects obj1, obj2 which have annotated methods.
+
+
+##### extend
+alternatively extend [`Xctor`](src/main/scala/experimental/akka/annotations/receive/Actors.scala) (with/without mixins):
+
+```class MyActor extends Xctor with Biz with Tech```
+
+In this example all annotated methods in `MyActor`,`Biz` and `Tech` will be taken into account.
 
 see also [`SampleActors`](src/test/scala/experimental/akka/annotations/receive/SampleActors.scala) for usage examples.
 
-the dispatcher essentially maintains a map `message class -> (receiver, receiver method)` and on runtime will invoke for a given message the corresponding method. behaviour for missing mappings can be implemented - see `NotFoundStrategy` in the `Dispatcher`.
 
 ### remarks
 #### typed
@@ -54,6 +68,6 @@ inside the method impl there might be still a lot of messaging to other actors r
 
 for more general approaches see deprecated [`TypedActor`](http://doc.akka.io/docs/akka/current/scala/typed-actors.html) or experimental [`Akka Typed`](http://doc.akka.io/docs/akka/current/scala/typed.html).
 
-This here were rather experiments to play with scala annotations.
+so not sure how applicable this all is for larger akka implementations.
  
  
