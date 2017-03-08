@@ -1,6 +1,6 @@
 ### annotations for akka methods
 usually an actor's `receive` has some pattern matching against the incoming message to invoke some logic against message.
-the approach here implemented allows to annotated methods (per message type) and have on runtime the methods automatically invoked from the `receive` method.
+the approach here implemented allows to annotate methods (per message type) and have on runtime the methods automatically invoked from the `receive` method.
 
 
 #### annotations
@@ -51,11 +51,11 @@ with for example some objects obj1, obj2 which have annotated methods.
 
 
 ##### extend
-alternatively extend [`Xctor`](src/main/scala/experimental/akka/annotations/receive/Actors.scala) (with/without mixins):
+alternatively extend [`Xctor`](src/main/scala/experimental/akka/annotations/receive/Actors.scala) (with/without mixins). for example
 
 ```class MyActor extends Xctor with Biz with Tech```
 
-In this example all annotated methods in `MyActor`,`Biz` and `Tech` will be taken into account.
+will take all annotated methods in `MyActor`,`Biz` and `Tech` into account.
 
 see also [`SampleActors`](src/test/scala/experimental/akka/annotations/receive/SampleActors.scala) for usage examples.
 
@@ -68,6 +68,6 @@ inside the method impl there might be still a lot of messaging to other actors r
 
 for more general approaches see deprecated [`TypedActor`](http://doc.akka.io/docs/akka/current/scala/typed-actors.html) or experimental [`Akka Typed`](http://doc.akka.io/docs/akka/current/scala/typed.html).
 
-so not sure how applicable this all is for larger akka implementations.
+so not sure how applicable this all is for larger akka implementations - for now this is an experiment with scala annotations.
  
  
