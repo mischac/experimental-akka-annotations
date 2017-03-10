@@ -5,6 +5,7 @@ import experimental.akka.annotations.receive.MethodMap.MethodMap
 
 object Dispatcher {
 
+  // i.e. class of incoming message not in MethodMap.keys
   type NotFoundStrategy = Any => Unit
 
   private val throwException: NotFoundStrategy =
@@ -14,8 +15,8 @@ object Dispatcher {
 
   def relaxed(receivers: Any*): Dispatcher = Dispatcher(None, MethodMap(receivers: _*))
 
-  def withHandler(notFoundHandler: NotFoundStrategy, receivers: Any*): Dispatcher =
-    Dispatcher(Some(notFoundHandler), MethodMap(receivers: _*))
+  def withHandler(notFoundStrategy: NotFoundStrategy, receivers: Any*): Dispatcher =
+    Dispatcher(Some(notFoundStrategy), MethodMap(receivers: _*))
 
 }
 

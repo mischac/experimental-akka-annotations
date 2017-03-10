@@ -34,23 +34,23 @@ import akka.util.Timeout
 This is used for messages which are singleton objects. 
 the annotated method should not have any parameters.
 
-#### dispatcher & actor code
+#### dispatcher
 ##### the dispatcher
 the dispatcher essentially maintains a map `message class -> (receiver, receiver method)` and will on runtime for a given message invoke 
 the corresponding `receiver.method`. 
 
 behaviour for missing mappings can be implemented - see `NotFoundStrategy` in the `Dispatcher`, the default is a runtime exception.
 
-
-##### manual
+#### usage samples
+##### by overriding `receive`
 usage (from an actor) example:
 
 ```override def receive: Receive = Dispatcher(obj1, obj2).receive```
 
-with for example some objects obj1, obj2 which have annotated methods.
+will dispatch messages to objects obj1, obj2 according their annotated methods.
 
 
-##### extend
+##### by extending `Xctor`
 alternatively extend [`Xctor`](src/main/scala/experimental/akka/annotations/receive/Actors.scala) (with/without mixins). for example
 
 ```class MyActor extends Xctor with Biz with Tech```
